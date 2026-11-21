@@ -228,4 +228,4 @@ async def fetch_sync(url):
 
 **Further reading:** [Real Python, *Python's asyncio: A Hands-On Walkthrough*](https://realpython.com/async-io-python/) (the main source for this chapter) · [asyncio docs](https://docs.python.org/3/library/asyncio.html)
 
-**Previous:** [← 01 · Python foundations](../01-python-foundations/README.md)
+**Previous:** [← 01 · Python foundations](../01-python-foundations/README.md) · **Next:** [03 · REST APIs, JSON and secrets →](../03-rest-apis-and-secrets/README.md)
