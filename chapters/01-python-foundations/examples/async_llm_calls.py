@@ -1,7 +1,7 @@
 """async/await for LLM calls: run an eval set concurrently instead of one by one.
 
 Uses a fake LLM (1 s of simulated network latency) so it runs without an API key.
-See llm_client_demo.py for the same pattern with the real Anthropic client.
+See llm_client_demo.py for the same pattern with a real LLM client.
 
 Run: uv run chapters/01-python-foundations/examples/async_llm_calls.py
 """

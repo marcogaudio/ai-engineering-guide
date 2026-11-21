@@ -35,7 +35,7 @@ uv run pytest                              # run every example as a test
 uv run ruff check . && uv run mypy chapters   # lint + type-check
 ```
 
-Examples that call a real LLM need an API key (`export ANTHROPIC_API_KEY=...`). Without one they print a message and exit, so the tests still pass. Examples that need the internet run only with `RUN_NETWORK_EXAMPLES=1`.
+Examples that call a real LLM default to a free local model via [Ollama](https://ollama.com) (`ollama pull llama3.2 && ollama serve`). Point them at any OpenAI-compatible API with `LLM_BASE_URL`, `LLM_API_KEY` and `LLM_MODEL`. Without a reachable server they print a message and exit, so the tests still pass. Examples that need the internet run only with `RUN_NETWORK_EXAMPLES=1`.
 
 ## Repository layout
 

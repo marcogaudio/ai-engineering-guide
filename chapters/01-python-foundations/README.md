@@ -9,7 +9,7 @@ The five Python features you meet in almost every piece of LLM code. Each one ge
 | [Virtual environments](#3-virtual-environments-venv-and-uv) | Reproducible, isolated projects | — |
 | [async/await](#4-asyncawait-for-llm-calls) | LLM calls are network-bound: run them concurrently | [`async_llm_calls.py`](examples/async_llm_calls.py) |
 | [Generators & streaming](#5-generators-and-streaming) | Tokens arrive incrementally | [`streaming.py`](examples/streaming.py) |
-| All of the above with the real SDK | | [`llm_client_demo.py`](examples/llm_client_demo.py) (needs `ANTHROPIC_API_KEY`) |
+| All of the above with a real LLM | | [`llm_client_demo.py`](examples/llm_client_demo.py) (free local model via Ollama, or any OpenAI-compatible API) |
 
 ---
 
