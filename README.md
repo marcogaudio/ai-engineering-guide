@@ -6,10 +6,13 @@ A practical guide to AI engineering in Python. Each chapter explains the concept
 
 The goal: go from "I can call an LLM API" to building reliable, production-grade LLM applications such as RAG systems, agents and evals.
 
+The guide follows Chip Huyen's framing of AI engineering: building applications on top of foundation models that already exist, not training models from scratch. [Chapter 00](chapters/00-what-is-ai-engineering/README.md) explains what that means, so start there.
+
 ## Chapters
 
 | # | Chapter | Topics | Status |
 |---|---|---|---|
+| 00 | [What is AI engineering?](chapters/00-what-is-ai-engineering/README.md) | foundation models · AI vs ML vs full-stack engineering · the three layers of the AI stack | ✅ |
 | 01 | [Python foundations](chapters/01-python-foundations/README.md) | type hints · dataclasses vs Pydantic · venv & uv · async/await · generators & streaming | ✅ |
 | 02 | [asyncio in depth](chapters/02-asyncio/README.md) | coroutines · event loop · gather / as_completed · queues · async generators · TaskGroup · ExceptionGroup | ✅ |
 | 03 | [REST APIs, JSON & secrets](chapters/03-rest-apis-and-secrets/README.md) | HTTP messages · REST methods & status codes · JSON · httpx2 · errors & timeouts · env vars, `.env` & pydantic-settings · SSE streaming | ✅ |
@@ -49,6 +52,7 @@ uv run --env-file .env chapters/01-python-foundations/examples/llm_client_demo.p
 
 ```
 chapters/
+  00-what-is-ai-engineering/
   01-python-foundations/
     README.md          ← the chapter: concepts + snippets
     examples/*.py      ← runnable, tested examples

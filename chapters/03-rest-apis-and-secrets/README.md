@@ -16,8 +16,6 @@ Every LLM provider, vector database and tool your agent calls is reached through
 | [Secret hygiene](#10-secret-hygiene) | A leaked LLM key is someone else's free GPU budget | — |
 | [Putting it together](#11-putting-it-together-an-llm-call-without-the-sdk) | An LLM call with no SDK: just HTTP, JSON and a key | [`07_raw_llm_call.py`](examples/07_raw_llm_call.py) (free local model via Ollama, or any OpenAI-compatible API) |
 
-![The life of one API call, mapped to this chapter's sections: config and secrets (§9–10) feed one httpx2 client (§6), which sends a request (§2, §3, §5) over HTTP (§1). A 2xx response (§4) is validated with Pydantic (§5); an error status or no response goes to §7, which retries through the client or fixes the request.](images/chapter-map.svg)
-
 ---
 
 ## 1. How HTTP works

@@ -247,4 +247,4 @@ for r in failures(read_jsonl("eval_results.jsonl")):
 
 **How they fit together:** a typical eval script uses all five. You set up the project with uv, define test cases and grader output as Pydantic models, and run the calls concurrently with the async client and `gather`. The user-facing app streams its responses, and type hints run through all of it.
 
-**Next:** [02 · asyncio in depth →](../02-asyncio/README.md)
+**Previous:** [← 00 · What is AI engineering?](../00-what-is-ai-engineering/README.md) · **Next:** [02 · asyncio in depth →](../02-asyncio/README.md)
