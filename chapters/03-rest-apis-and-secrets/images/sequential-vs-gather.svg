@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 436" width="860" height="436" role="img" aria-labelledby="title desc">
+  <title id="title">Six requests: one after another, or all at once</title>
+  <desc id="desc">Timeline of the six PyPI requests from 05_async_public_api.py. Sequentially, each request waits for the previous one, so the total time is the sum of all six. With asyncio.gather on one AsyncClient, all six are in flight at once, so the total is about as long as the slowest request. Python only works briefly at the start and end of each request; the rest is waiting on the network, during which the event loop runs the other requests. gather returns results in input order.</desc>
+  <style>
+    text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; font-size: 14px; fill: #1f2328; }
+    .mono { font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace; font-size: 13px; }
+    .title { font-size: 19px; font-weight: 700; }
+    .sub { font-size: 13.5px; fill: #59636e; }
+    .h { font-size: 15px; font-weight: 600; }
+    .s { font-size: 13px; }
+    .muted { fill: #59636e; }
+    .n { font-size: 13px; font-weight: 700; fill: #0550ae; }
+    .card { fill: #ffffff; stroke: #d0d7de; stroke-width: 1; }
+    .wait { fill: #ddf4ff; stroke: #54aeff; stroke-width: 1; }
+    .py { fill: #0969da; }
+    .brace { fill: none; stroke: #8c959f; stroke-width: 1.2; }
+  </style>
+  <defs>
+    <marker id="ag" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#8c959f"/>
+    </marker>
+  </defs>
+
+  <rect class="card" x="0.5" y="0.5" width="859" height="435" rx="14"/>
+  <text class="title" x="28" y="40">Six requests: one after another, or all at once</text>
+  <text class="sub" x="28" y="64">The six PyPI calls of <tspan class="mono">05_async_public_api.py</tspan>. Bar lengths are illustrative.</text>
+
+  <!-- Sequential: each bar starts when the previous one ends -->
+  <text class="h" x="28" y="104">Sequential</text>
+  <text class="s muted" x="28" y="124">await each call</text>
+  <text class="s muted" x="28" y="142">before the next</text>
+
+  <rect class="wait" x="200" y="94" width="84" height="30" rx="4"/>
+  <rect class="wait" x="286" y="94" width="100" height="30" rx="4"/>
+  <rect class="wait" x="388" y="94" width="72" height="30" rx="4"/>
+  <rect class="wait" x="462" y="94" width="112" height="30" rx="4"/>
+  <rect class="wait" x="576" y="94" width="88" height="30" rx="4"/>
+  <rect class="wait" x="666" y="94" width="94" height="30" rx="4"/>
+  <g class="py">
+    <rect x="200" y="94" width="6" height="30"/><rect x="276" y="94" width="8" height="30"/>
+    <rect x="286" y="94" width="6" height="30"/><rect x="378" y="94" width="8" height="30"/>
+    <rect x="388" y="94" width="6" height="30"/><rect x="452" y="94" width="8" height="30"/>
+    <rect x="462" y="94" width="6" height="30"/><rect x="566" y="94" width="8" height="30"/>
+    <rect x="576" y="94" width="6" height="30"/><rect x="656" y="94" width="8" height="30"/>
+    <rect x="666" y="94" width="6" height="30"/><rect x="752" y="94" width="8" height="30"/>
+  </g>
+  <text class="n" x="242" y="114" text-anchor="middle">1</text>
+  <text class="n" x="336" y="114" text-anchor="middle">2</text>
+  <text class="n" x="424" y="114" text-anchor="middle">3</text>
+  <text class="n" x="518" y="114" text-anchor="middle">4</text>
+  <text class="n" x="620" y="114" text-anchor="middle">5</text>
+  <text class="n" x="713" y="114" text-anchor="middle">6</text>
+  <path class="brace" d="M200 134 V140 H760 V134"/>
+  <text class="s muted" x="480" y="158" text-anchor="middle">total ≈ the sum of all six</text>
+
+  <!-- gather: all six in flight at once -->
+  <text class="h" x="28" y="206">asyncio.gather</text>
+  <text class="s muted" x="28" y="226">one AsyncClient,</text>
+  <text class="s muted" x="28" y="244">all six in flight</text>
+
+  <rect class="wait" x="200" y="188" width="84" height="16" rx="3"/>
+  <rect class="wait" x="205" y="210" width="100" height="16" rx="3"/>
+  <rect class="wait" x="210" y="232" width="72" height="16" rx="3"/>
+  <rect class="wait" x="215" y="254" width="112" height="16" rx="3"/>
+  <rect class="wait" x="220" y="276" width="88" height="16" rx="3"/>
+  <rect class="wait" x="225" y="298" width="94" height="16" rx="3"/>
+  <g class="py">
+    <rect x="200" y="188" width="5" height="16"/><rect x="276" y="188" width="8" height="16"/>
+    <rect x="205" y="210" width="5" height="16"/><rect x="297" y="210" width="8" height="16"/>
+    <rect x="210" y="232" width="5" height="16"/><rect x="274" y="232" width="8" height="16"/>
+    <rect x="215" y="254" width="5" height="16"/><rect x="319" y="254" width="8" height="16"/>
+    <rect x="220" y="276" width="5" height="16"/><rect x="300" y="276" width="8" height="16"/>
+    <rect x="225" y="298" width="5" height="16"/><rect x="311" y="298" width="8" height="16"/>
+  </g>
+  <text class="n" x="242" y="201" text-anchor="middle">1</text>
+  <text class="n" x="255" y="223" text-anchor="middle">2</text>
+  <text class="n" x="246" y="245" text-anchor="middle">3</text>
+  <text class="n" x="271" y="267" text-anchor="middle">4</text>
+  <text class="n" x="264" y="289" text-anchor="middle">5</text>
+  <text class="n" x="272" y="311" text-anchor="middle">6</text>
+  <path class="brace" d="M200 324 V330 H327 V324"/>
+  <text class="s muted" x="200" y="348">total ≈ the slowest one</text>
+
+  <text class="s" x="372" y="204">While request 1 waits on the network, the event loop</text>
+  <text class="s" x="372" y="224">sends 2, 3, … 6 over the same client, which shares one</text>
+  <text class="s" x="372" y="244">pool of connections. Python only works in the dark parts.</text>
+  <text class="s" x="372" y="274"><tspan class="mono">gather</tspan> returns the results in input order, whatever</text>
+  <text class="s" x="372" y="294">order the responses arrive in.</text>
+
+  <!-- time axis + legend -->
+  <path d="M200 368 H826" fill="none" stroke="#8c959f" stroke-width="1.4" marker-end="url(#ag)"/>
+  <text class="s muted" x="822" y="360" text-anchor="end">time</text>
+  <rect class="py" x="200" y="384" width="14" height="14" rx="2"/>
+  <text class="s" x="222" y="396">Python working: build the request, parse the JSON</text>
+  <rect class="wait" x="200" y="406" width="14" height="14" rx="2"/>
+  <text class="s" x="222" y="418">waiting on the network: the event loop runs the other requests</text>
+</svg>

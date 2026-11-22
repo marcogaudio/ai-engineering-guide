@@ -1,0 +1,111 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 600" width="860" height="600" role="img" aria-labelledby="title desc">
+  <title id="title">Retry or fix? What to do when a call fails</title>
+  <desc id="desc">Flowchart. After sending a request, ask whether a response arrived. If not, it is an httpx2.TransportError such as ConnectError or ReadTimeout, usually temporary. If yes, look at the status code: 2xx means carry on; 3xx is a redirect, not followed unless you pass follow_redirects=True; 408, 429, 500, 502, 503 and 504 are temporary, like a TransportError, so wait (honouring Retry-After) and retry; any other error status such as 400, 401, 403, 404, 413 or 422 means the request is wrong, so fix it and do not retry. Before retrying, only idempotent requests are safe to retry blindly: a POST that timed out may already have run. Anthropic's 529 (overloaded) should be treated like 503.</desc>
+  <style>
+    text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; font-size: 14px; fill: #1f2328; }
+    .mono { font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace; font-size: 13px; }
+    .title { font-size: 19px; font-weight: 700; }
+    .sub { font-size: 13.5px; fill: #59636e; }
+    .h { font-size: 15px; font-weight: 600; }
+    .s { font-size: 13px; }
+    .muted { fill: #59636e; }
+    .b { font-weight: 700; }
+    .halo { paint-order: stroke; stroke: #ffffff; stroke-width: 5px; stroke-linejoin: round; }
+    .card { fill: #ffffff; stroke: #d0d7de; stroke-width: 1; }
+    .arrow { fill: none; stroke: #6e7781; stroke-width: 1.6; }
+    .neu { fill: #f6f8fa; stroke: #8c959f; stroke-width: 1.5; }
+    .req { fill: #ddf4ff; stroke: #0969da; stroke-width: 1.5; }
+    .ok { fill: #dafbe1; stroke: #1a7f37; stroke-width: 1.5; }
+    .fix { fill: #ffebe9; stroke: #cf222e; stroke-width: 1.5; }
+    .retry { fill: #fff8c5; stroke: #bf8700; stroke-width: 1.5; }
+  </style>
+  <defs>
+    <marker id="ag" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#6e7781"/>
+    </marker>
+    <marker id="aa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#9a6700"/>
+    </marker>
+  </defs>
+
+  <rect class="card" x="0.5" y="0.5" width="859" height="599" rx="14"/>
+  <text class="title" x="28" y="40">Retry or fix? What to do when a call fails</text>
+  <text class="sub" x="28" y="64">The same rules as <tspan class="mono">is_retryable()</tspan> in <tspan class="mono">04_errors_and_timeouts.py</tspan>.</text>
+
+  <!-- start -->
+  <rect class="req" x="330" y="82" width="200" height="38" rx="19"/>
+  <text class="h" x="430" y="106" text-anchor="middle">Send the request</text>
+  <path class="arrow" d="M430 120 V136" marker-end="url(#ag)"/>
+
+  <!-- did a response arrive? -->
+  <polygon points="430,140 580,184 430,228 280,184" class="neu" stroke="#57606a"/>
+  <text class="h" x="430" y="180" text-anchor="middle">Did a response</text>
+  <text class="h" x="430" y="199" text-anchor="middle">arrive?</text>
+
+  <!-- no: transport error -->
+  <path class="arrow" d="M580 184 H616" marker-end="url(#ag)"/>
+  <text class="s b muted" x="598" y="176" text-anchor="middle">no</text>
+  <rect class="neu" x="620" y="136" width="216" height="108" rx="10"/>
+  <text class="h" x="634" y="160">No usable answer</text>
+  <text class="mono" x="634" y="182">httpx2.TransportError</text>
+  <text class="s" x="634" y="203">ConnectError, ReadTimeout…</text>
+  <text class="s muted" x="634" y="223">refused, dropped, too slow</text>
+
+  <!-- yes: look at the status -->
+  <path class="arrow" d="M430 228 V254" marker-end="url(#ag)"/>
+  <text class="s b muted" x="440" y="246">yes</text>
+  <rect class="neu" x="310" y="258" width="240" height="46" rx="10"/>
+  <text class="h" x="430" y="278" text-anchor="middle">Which status code?</text>
+  <text class="mono muted" x="430" y="296" text-anchor="middle">r.status_code</text>
+
+  <path class="arrow" d="M430 304 V320 M121 320 H739"/>
+  <path class="arrow" d="M121 320 V336" marker-end="url(#ag)"/>
+  <path class="arrow" d="M327 320 V336" marker-end="url(#ag)"/>
+  <path class="arrow" d="M533 320 V336" marker-end="url(#ag)"/>
+  <path class="arrow" d="M739 320 V336" marker-end="url(#ag)"/>
+
+  <!-- transport errors are temporary too -->
+  <path d="M800 246 V336" fill="none" stroke="#9a6700" stroke-width="1.6" marker-end="url(#aa)"/>
+  <text class="s muted halo" x="792" y="292" text-anchor="end">usually temporary</text>
+
+  <!-- the four outcomes -->
+  <rect class="ok" x="24" y="340" width="194" height="126" rx="10"/>
+  <text class="h" x="38" y="366">2xx · success</text>
+  <text class="s" x="38" y="390">carry on:</text>
+  <text class="mono" x="38" y="412">r.json()</text>
+
+  <rect class="neu" x="230" y="340" width="194" height="126" rx="10"/>
+  <text class="h" x="244" y="366">3xx · redirect</text>
+  <text class="s" x="244" y="390">not followed by</text>
+  <text class="s" x="244" y="410">default; pass</text>
+  <text class="mono" x="244" y="434">follow_redirects=True</text>
+
+  <rect class="fix" x="436" y="340" width="194" height="126" rx="10"/>
+  <text class="h" x="450" y="366">Any other error</text>
+  <text class="mono" x="450" y="390">400 401 403 404</text>
+  <text class="mono" x="450" y="410">413 422 …</text>
+  <text class="s" x="450" y="434">the request is wrong:</text>
+  <text class="s b" x="450" y="454" fill="#a40e26">fix it, don't retry</text>
+
+  <rect class="retry" x="642" y="340" width="194" height="126" rx="10"/>
+  <text class="h" x="656" y="366">Temporary</text>
+  <text class="mono" x="656" y="390">408 429</text>
+  <text class="mono" x="656" y="410">500 502 503 504</text>
+  <text class="s" x="656" y="434">or no answer at all</text>
+  <text class="s b" x="656" y="454" fill="#7d4e00">wait, then retry</text>
+
+  <!-- retry -->
+  <path d="M739 466 V486" fill="none" stroke="#9a6700" stroke-width="1.6" marker-end="url(#aa)"/>
+  <rect class="retry" x="642" y="490" width="194" height="82" rx="10"/>
+  <text class="h" x="656" y="514">Wait, then retry</text>
+  <text class="s" x="656" y="536">honour <tspan class="mono">Retry-After</tspan></text>
+  <text class="s muted" x="656" y="556">backoff loops: ch. 04</text>
+
+  <!-- the idempotency warning -->
+  <path d="M610 531 H640" fill="none" stroke="#bf8700" stroke-width="1.4" stroke-dasharray="4 3"/>
+  <rect x="24" y="484" width="586" height="102" rx="10" fill="#fffbea" stroke="#bf8700" stroke-width="1.5" stroke-dasharray="6 4"/>
+  <text class="h" x="40" y="508" fill="#7d4e00">Before you retry</text>
+  <text class="s" x="40" y="530">Retry blindly only idempotent requests (GET, PUT, DELETE). A POST that</text>
+  <text class="s" x="40" y="550">timed out may already have run, so a retry can create, or charge for, it twice.</text>
+  <text class="s muted" x="40" y="574">Anthropic also returns 529 when it is overloaded: treat it like 503.</text>
+</svg>

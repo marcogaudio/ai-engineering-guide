@@ -1,0 +1,162 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 652" width="860" height="652" role="img" aria-labelledby="title desc">
+  <title id="title">One HTTP exchange, step by step</title>
+  <desc id="desc">Top: your Python script (the user agent) talks to a server, possibly through a proxy, in four steps: open a TCP connection, send the request, read the response, then close the connection or reuse it. Bottom: three requests A, B and C over time. HTTP/1.0 opens a new connection for each request, HTTP/1.1 reuses one persistent connection for requests one after another, and HTTP/2 sends all three at once over one connection (multiplexing), finishing first.</desc>
+  <style>
+    text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; font-size: 14px; fill: #1f2328; }
+    .mono { font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace; font-size: 13px; }
+    .title { font-size: 19px; font-weight: 700; }
+    .sub { font-size: 13.5px; fill: #59636e; }
+    .h { font-size: 15px; font-weight: 600; }
+    .s { font-size: 13px; }
+    .muted { fill: #59636e; }
+    .num { font-size: 13px; font-weight: 700; fill: #ffffff; }
+    .blk { font-size: 13px; font-weight: 700; fill: #ffffff; }
+    .halo { paint-order: stroke; stroke: #ffffff; stroke-width: 5px; stroke-linejoin: round; }
+    .card { fill: #ffffff; stroke: #d0d7de; stroke-width: 1; }
+    .neu { fill: #f6f8fa; stroke: #8c959f; stroke-width: 1.5; }
+    .req { fill: #ddf4ff; stroke: #0969da; stroke-width: 1.5; }
+    .res { fill: #fbefff; stroke: #8250df; stroke-width: 1.5; }
+    .conn { fill: #eaeef2; stroke: #afb8c1; stroke-width: 1; }
+    .hs { fill: #57606a; }
+    .rq { fill: #0969da; }
+    .rs { fill: #8250df; }
+  </style>
+  <defs>
+    <marker id="ag" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#57606a"/>
+    </marker>
+    <marker id="ab" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#0969da"/>
+    </marker>
+    <marker id="ap" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#8250df"/>
+    </marker>
+  </defs>
+
+  <rect class="card" x="0.5" y="0.5" width="859" height="651" rx="14"/>
+  <text class="title" x="28" y="40">One HTTP exchange, step by step</text>
+  <text class="sub" x="28" y="64">Top: the four steps behind every request. Bottom: how HTTP/1.0, 1.1 and 2 use connections for three requests.</text>
+
+  <!-- The three parties -->
+  <rect class="req" x="40" y="86" width="210" height="50" rx="10"/>
+  <text class="h" x="145" y="107" text-anchor="middle">Your Python script</text>
+  <text class="s muted" x="145" y="126" text-anchor="middle">the user agent</text>
+
+  <rect x="330" y="86" width="200" height="50" rx="10" fill="#ffffff" stroke="#8c959f" stroke-width="1.5" stroke-dasharray="6 4"/>
+  <text class="h" x="430" y="107" text-anchor="middle">Proxy (optional)</text>
+  <text class="s muted" x="430" y="126" text-anchor="middle">caches · logs · balances</text>
+
+  <rect class="res" x="610" y="86" width="210" height="50" rx="10"/>
+  <text class="h" x="715" y="107" text-anchor="middle">Server</text>
+  <text class="mono muted" x="715" y="126" text-anchor="middle">api.example.com</text>
+
+  <!-- lifelines -->
+  <path d="M145 136 V336 M715 136 V336" stroke="#8c959f" stroke-width="1.2" stroke-dasharray="4 4"/>
+  <path d="M430 136 V336" stroke="#d0d7de" stroke-width="1.2" stroke-dasharray="4 4"/>
+
+  <!-- 1. open a connection -->
+  <circle cx="166" cy="165" r="11" fill="#57606a"/>
+  <text class="num" x="166" y="170" text-anchor="middle">1</text>
+  <text class="halo" x="184" y="170">open a TCP connection (plus TLS encryption, for https)</text>
+  <path d="M149 184 H711" fill="none" stroke="#57606a" stroke-width="1.6" marker-start="url(#ag)" marker-end="url(#ag)"/>
+
+  <!-- 2. send the request -->
+  <circle cx="166" cy="215" r="11" fill="#0969da"/>
+  <text class="num" x="166" y="220" text-anchor="middle">2</text>
+  <text class="halo" x="184" y="220">send the request <tspan class="mono" fill="#0550ae">GET /hello HTTP/1.1</tspan> + headers</text>
+  <path d="M147 234 H711" fill="none" stroke="#0969da" stroke-width="1.8" marker-end="url(#ab)"/>
+
+  <!-- 3. read the response -->
+  <circle cx="166" cy="265" r="11" fill="#8250df"/>
+  <text class="num" x="166" y="270" text-anchor="middle">3</text>
+  <text class="halo" x="184" y="270">read the response <tspan class="mono" fill="#6639ba">HTTP/1.1 200 OK</tspan> + headers + body</text>
+  <path d="M713 284 H149" fill="none" stroke="#8250df" stroke-width="1.8" marker-end="url(#ap)"/>
+
+  <!-- 4. close or reuse -->
+  <circle cx="166" cy="310" r="11" fill="#57606a"/>
+  <text class="num" x="166" y="315" text-anchor="middle">4</text>
+  <text class="halo" x="184" y="315">close the connection, or keep it open and reuse it for the next request</text>
+  <path d="M147 328 H713" fill="none" stroke="#8c959f" stroke-width="1.6" stroke-dasharray="6 4"/>
+
+  <!-- the proxy forwards each message -->
+  <g fill="#8c959f">
+    <circle cx="430" cy="184" r="3.5"/>
+    <circle cx="430" cy="234" r="3.5"/>
+    <circle cx="430" cy="284" r="3.5"/>
+  </g>
+
+  <path d="M28 356 H832" stroke="#d0d7de" stroke-width="1"/>
+
+  <!-- Connections over time -->
+  <text class="h" x="28" y="386">The same three requests (A, B, C) over time</text>
+
+  <!-- HTTP/1.0: one connection per request -->
+  <text class="h" x="40" y="416">HTTP/1.0</text>
+  <text class="s muted" x="40" y="434">new connection each time</text>
+  <rect class="conn" x="250" y="402" width="118" height="34" rx="6"/>
+  <rect class="hs" x="254" y="406" width="26" height="26" rx="3"/>
+  <rect class="rq" x="282" y="406" width="34" height="26" rx="3"/>
+  <rect class="rs" x="318" y="406" width="46" height="26" rx="3"/>
+  <text class="blk" x="299" y="424" text-anchor="middle">A</text>
+  <text class="blk" x="341" y="424" text-anchor="middle">A</text>
+  <rect class="conn" x="380" y="402" width="118" height="34" rx="6"/>
+  <rect class="hs" x="384" y="406" width="26" height="26" rx="3"/>
+  <rect class="rq" x="412" y="406" width="34" height="26" rx="3"/>
+  <rect class="rs" x="448" y="406" width="46" height="26" rx="3"/>
+  <text class="blk" x="429" y="424" text-anchor="middle">B</text>
+  <text class="blk" x="471" y="424" text-anchor="middle">B</text>
+  <rect class="conn" x="510" y="402" width="118" height="34" rx="6"/>
+  <rect class="hs" x="514" y="406" width="26" height="26" rx="3"/>
+  <rect class="rq" x="542" y="406" width="34" height="26" rx="3"/>
+  <rect class="rs" x="578" y="406" width="46" height="26" rx="3"/>
+  <text class="blk" x="559" y="424" text-anchor="middle">C</text>
+  <text class="blk" x="601" y="424" text-anchor="middle">C</text>
+  <text class="s muted" x="638" y="424">done</text>
+
+  <!-- HTTP/1.1: one persistent connection -->
+  <text class="h" x="40" y="480">HTTP/1.1</text>
+  <text class="s muted" x="40" y="498">one persistent connection</text>
+  <rect class="conn" x="250" y="466" width="286" height="34" rx="6"/>
+  <rect class="hs" x="254" y="470" width="26" height="26" rx="3"/>
+  <rect class="rq" x="282" y="470" width="34" height="26" rx="3"/>
+  <rect class="rs" x="318" y="470" width="46" height="26" rx="3"/>
+  <rect class="rq" x="366" y="470" width="34" height="26" rx="3"/>
+  <rect class="rs" x="402" y="470" width="46" height="26" rx="3"/>
+  <rect class="rq" x="450" y="470" width="34" height="26" rx="3"/>
+  <rect class="rs" x="486" y="470" width="46" height="26" rx="3"/>
+  <text class="blk" x="299" y="488" text-anchor="middle">A</text>
+  <text class="blk" x="341" y="488" text-anchor="middle">A</text>
+  <text class="blk" x="383" y="488" text-anchor="middle">B</text>
+  <text class="blk" x="425" y="488" text-anchor="middle">B</text>
+  <text class="blk" x="467" y="488" text-anchor="middle">C</text>
+  <text class="blk" x="509" y="488" text-anchor="middle">C</text>
+  <text class="s muted" x="546" y="488">done</text>
+
+  <!-- HTTP/2: one connection, multiplexed -->
+  <text class="h" x="40" y="550">HTTP/2</text>
+  <text class="s muted" x="40" y="568">one connection, multiplexed</text>
+  <rect class="conn" x="250" y="528" width="132" height="58" rx="6"/>
+  <rect class="hs" x="254" y="532" width="26" height="50" rx="3"/>
+  <rect class="rq" x="282" y="533" width="34" height="15" rx="2"/>
+  <rect class="rs" x="318" y="533" width="46" height="15" rx="2"/>
+  <rect class="rq" x="288" y="551" width="34" height="15" rx="2"/>
+  <rect class="rs" x="324" y="551" width="46" height="15" rx="2"/>
+  <rect class="rq" x="294" y="569" width="34" height="15" rx="2"/>
+  <rect class="rs" x="330" y="569" width="46" height="15" rx="2"/>
+  <text class="blk" x="299" y="545" text-anchor="middle">A</text>
+  <text class="blk" x="305" y="563" text-anchor="middle">B</text>
+  <text class="blk" x="311" y="581" text-anchor="middle">C</text>
+  <text class="s muted" x="392" y="562">done</text>
+
+  <!-- time axis + legend -->
+  <path d="M250 606 H826" fill="none" stroke="#8c959f" stroke-width="1.4" marker-end="url(#ag)"/>
+  <text class="s muted" x="822" y="598" text-anchor="end">time</text>
+
+  <rect class="hs" x="40" y="621" width="14" height="14" rx="2"/>
+  <text class="s" x="60" y="633">connect (TCP + TLS)</text>
+  <rect class="rq" x="210" y="621" width="14" height="14" rx="2"/>
+  <text class="s" x="230" y="633">request</text>
+  <rect class="rs" x="300" y="621" width="14" height="14" rx="2"/>
+  <text class="s" x="320" y="633">response</text>
+  <text class="s muted" x="822" y="633" text-anchor="end">HTTP/3: the same idea over QUIC (UDP)</text>
+</svg>

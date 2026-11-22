@@ -16,6 +16,8 @@ Every LLM provider, vector database and tool your agent calls is reached through
 | [Secret hygiene](#10-secret-hygiene) | A leaked LLM key is someone else's free GPU budget | — |
 | [Putting it together](#11-putting-it-together-an-llm-call-without-the-sdk) | An LLM call with no SDK: just HTTP, JSON and a key | [`07_raw_llm_call.py`](examples/07_raw_llm_call.py) (free local model via Ollama, or any OpenAI-compatible API) |
 
+![The life of one API call, mapped to this chapter's sections: config and secrets (§9–10) feed one httpx2 client (§6), which sends a request (§2, §3, §5) over HTTP (§1). A 2xx response (§4) is validated with Pydantic (§5); an error status or no response goes to §7, which retries through the client or fixes the request.](images/chapter-map.svg)
+
 ---
 
 ## 1. How HTTP works
@@ -30,6 +32,8 @@ Four properties explain most of HTTP's design:
 - **Extensible.** **Headers** (`Name: value` lines) can carry any extra information, so new features such as caching, authentication and API keys were added as new headers rather than new protocols.
 - **Stateless.** The server doesn't link one request to the next, so every request must carry everything the server needs. Sessions are built on top, with cookies in browsers or a key sent on every API call.
 - **It needs a reliable connection,** which in practice means TCP. HTTP/1.0 opened a new TCP connection for every request. HTTP/1.1 keeps connections open and reuses them (**persistent connections**). HTTP/2 sends many requests at once over a single connection (**multiplexing**). HTTP/3 moves to QUIC, which is built on UDP.
+
+![Top: your Python script talks to the server, possibly through a proxy, in four steps: open a TCP connection, send the request, read the response, then close the connection or reuse it. Bottom: three requests over time. HTTP/1.0 opens a new connection for each, HTTP/1.1 reuses one connection for requests one after another, and HTTP/2 sends all three at once over one connection and finishes first.](images/http-flow.svg)
 
 **The HTTP flow** is four steps: open a TCP connection, send a request, read the response, then close the connection or reuse it. [`01_http_by_hand.py`](examples/01_http_by_hand.py) does exactly this over a raw socket against a tiny local server, so you can read the actual text. Here is what it sends and receives:
 
@@ -69,6 +73,8 @@ Content-Type: application/json              ← headers
 ```
 
 A **URL** like `https://api.example.com/v1/notes?limit=10` breaks down into the scheme (`https`), the host (`api.example.com`), the path (`/v1/notes`) and the query string (`limit=10`). The request line carries only the path and query string; the host goes in the `Host` header.
+
+![A URL split into scheme, host, path and query string, showing the path and query going into the request line and the host into the Host header. Below, a POST request and its 201 Created response, part by part (start line, headers, empty line, body), each labelled with the httpx2 attribute that exposes it, such as r.request.headers, r.status_code, r.headers and r.json().](images/message-anatomy.svg)
 
 | Header | Sent by | Meaning |
 |---|---|---|
@@ -118,6 +124,8 @@ The first digit gives the class: **1xx** informational · **2xx** success · **3
 | **500 / 502 / 503 / 504** | server error, bad gateway, overloaded, gateway timeout | **wait, then retry** |
 
 Rule of thumb: **4xx means fix the request, 5xx and 429 mean retry later.** Some providers add their own codes. Anthropic, for example, returns `529` when its API is overloaded, which you should treat like a 503.
+
+Section 7 combines these rules with network errors into [one decision tree](#7-errors-timeouts-and-retryable-responses).
 
 ## 5. JSON
 
@@ -191,6 +199,8 @@ Two different things can go wrong:
 
 Both inherit from `httpx2.HTTPError`.
 
+![Decision tree for a failed call. No response at all is a TransportError (ConnectError, ReadTimeout) and is usually temporary. With a response, 2xx means carry on, 3xx is a redirect (follow_redirects=True), 408, 429, 500, 502, 503 and 504 mean wait (honour Retry-After) and retry, and any other error status means fix the request. Only idempotent requests are safe to retry blindly: a POST that timed out may already have run.](images/retry-decision.svg)
+
 ```python
 RETRYABLE_STATUS = {408, 429, 500, 502, 503, 504}
 
@@ -221,6 +231,8 @@ async def main() -> None:
     async with httpx2.AsyncClient(base_url="https://pypi.org", timeout=15) as client:
         infos = await asyncio.gather(*(fetch_info(client, p) for p in PACKAGES))
 ```
+
+![Timeline of six requests. Run one after another, the total time is the sum of all six. With asyncio.gather on one AsyncClient, all six wait on the network at the same time, so the total is about as long as the slowest one. Python only works briefly at the start and end of each request.](images/sequential-vs-gather.svg)
 
 [`05_async_public_api.py`](examples/05_async_public_api.py) fetches six packages from the PyPI JSON API in about 0.1 s. It also prints the real response headers, including `Cache-Control` and `ETag`: HTTP's caching controls in action.
 
@@ -282,6 +294,8 @@ headers = {"Authorization": f"Bearer {settings.api_key.get_secret_value()}"}   #
 
 The priority order is: real environment variables, then `.env`, then the defaults. Run [`06_env_and_secrets.py`](examples/06_env_and_secrets.py) to see each step with a fake key.
 
+![Environment variables, then the .env file, then class defaults, in priority order, feed Settings(), which validates them and wraps the key in SecretStr so printing shows only asterisks. The key is unwrapped with .get_secret_value() only to build the Authorization header, never put in the URL. Below, .gitignore blocks .env but allows .env.example, so only the placeholder file is committed. Git keeps every commit forever, so a leaked key must be rotated.](images/config-and-secrets.svg)
+
 **In LLM work:** the official SDKs read their key from a standard variable when you don't pass one: `Anthropic()` uses `ANTHROPIC_API_KEY`, and `OpenAI()` uses `OPENAI_API_KEY` (plus `OPENAI_BASE_URL`). This repo's examples use `LLM_BASE_URL`, `LLM_API_KEY` and `LLM_MODEL` so they work with any OpenAI-compatible provider: copy [`.env.example`](../../.env.example) to `.env` and fill it in.
 
 ## 10. Secret hygiene
@@ -339,6 +353,8 @@ with client.stream("POST", "/chat/completions", json=body | {"stream": True}) as
         if line.startswith("data:") and (data := line[5:].strip()) != "[DONE]":
             print(json.loads(data)["choices"][0]["delta"].get("content") or "", end="")
 ```
+
+![What 07_raw_llm_call.py does. LLMSettings reads LLM_BASE_URL, LLM_API_KEY and LLM_MODEL. An httpx2 client with the Bearer header and a timeout sends POST /chat/completions to the LLM server, and the 200 JSON response is validated into ChatCompletion to get the answer text. Streaming: the same POST with "stream": true returns data: lines, each with a small text delta, until data: [DONE], while the printed text grows.](images/raw-llm-call.svg)
 
 The same call to Anthropic's Messages API differs only in the URL, the headers and the JSON shapes:
 
