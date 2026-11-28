@@ -3,7 +3,7 @@
 A fake server (httpx2.MockTransport) misbehaves on purpose, so every kind of failure shows up
 offline and in a predictable order. The last case is a real network error: a connection to a
 port where nothing is listening.
-Full retry loops with exponential backoff and rate limits are in the next chapter.
+Full retry loops with exponential backoff and rate limits are in chapter 05 (Calling LLM APIs).
 
 Run: uv run chapters/03-rest-apis-and-secrets/examples/04_errors_and_timeouts.py
 """

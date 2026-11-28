@@ -16,14 +16,15 @@ The guide follows Chip Huyen's framing of AI engineering: building applications 
 | 01 | [Python foundations](chapters/01-python-foundations/README.md) | type hints · dataclasses vs Pydantic · venv & uv · async/await · generators & streaming | ✅ |
 | 02 | [asyncio in depth](chapters/02-asyncio/README.md) | coroutines · event loop · gather / as_completed · queues · async generators · TaskGroup · ExceptionGroup | ✅ |
 | 03 | [REST APIs, JSON & secrets](chapters/03-rest-apis-and-secrets/README.md) | HTTP messages · REST methods & status codes · JSON · httpx2 · errors & timeouts · env vars, `.env` & pydantic-settings · SSE streaming | ✅ |
-| 04 | Calling LLM APIs | messages & system prompts · parameters · tokens & cost · retries & rate limits | 🔜 |
-| 05 | Structured outputs & tool use | JSON schema · Pydantic validation · tool calling loops | 🔜 |
-| 06 | Embeddings & vector search | embeddings · similarity · vector stores · chunking | 🔜 |
-| 07 | RAG | retrieval pipelines · reranking · citations · failure modes | 🔜 |
-| 08 | Evals | test sets · graders (exact, LLM-as-judge) · regression tracking | 🔜 |
-| 09 | Agents | agent loop · tools · memory · guardrails | 🔜 |
-| 10 | Observability & cost | logging · tracing · token and latency budgets | 🔜 |
-| 11 | Deployment | FastAPI · streaming endpoints · Docker · secrets | 🔜 |
+| 04 | [Deep learning & Transformers](chapters/04-deep-learning-and-transformers/README.md) | neural networks · backpropagation · RNNs vs attention · Transformer architecture · BPE & embeddings · next-token training & scaling laws | ✅ |
+| 05 | Calling LLM APIs | messages & system prompts · parameters · tokens & cost · retries & rate limits | 🔜 |
+| 06 | Structured outputs & tool use | JSON schema · Pydantic validation · tool calling loops | 🔜 |
+| 07 | Embeddings & vector search | embeddings · similarity · vector stores · chunking | 🔜 |
+| 08 | RAG | retrieval pipelines · reranking · citations · failure modes | 🔜 |
+| 09 | Evals | test sets · graders (exact, LLM-as-judge) · regression tracking | 🔜 |
+| 10 | Agents | agent loop · tools · memory · guardrails | 🔜 |
+| 11 | Observability & cost | logging · tracing · token and latency budgets | 🔜 |
+| 12 | Deployment | FastAPI · streaming endpoints · Docker · secrets | 🔜 |
 
 ## Quick start
 
@@ -58,6 +59,7 @@ chapters/
     examples/*.py      ← runnable, tested examples
   02-asyncio/
   03-rest-apis-and-secrets/
+  04-deep-learning-and-transformers/
     ...
   TEMPLATE.md          ← copy this to start a new chapter
 tests/

@@ -55,8 +55,8 @@ print(reply.choices[0].message.content)   # e.g. "Negative." (free text, not a l
 
 Three consequences follow, and the rest of this guide is built around them:
 - **You adapt the model instead of training it.** The first tools are prompt engineering and context construction: giving the model the right information at the right moment, for example with RAG. Finetuning changes the model's weights, and comes later, only when prompts and context aren't enough.
-- **The models are big.** Every call takes time and costs money, so latency and token cost become everyday engineering concerns (chapters 04 and 10).
-- **The outputs are open-ended.** A classic classifier returns one of a few labels. An LLM returns free text, and often there's no single right answer. That makes quality harder to check, so evaluation becomes a core skill rather than a final step (chapter 08).
+- **The models are big.** Every call takes time and costs money, so latency and token cost become everyday engineering concerns (chapters 05 and 11).
+- **The outputs are open-ended.** A classic classifier returns one of a few labels. An LLM returns free text, and often there's no single right answer. That makes quality harder to check, so evaluation becomes a core skill rather than a final step (chapter 09).
 
 ML engineering doesn't go away: AI engineering grew out of it, and its fundamentals still apply. Those are good data, clear metrics and held-out test sets.
 
@@ -101,9 +101,9 @@ Getting from a good demo to a reliable product is where most of the engineering 
 
 | Layer | What lives there | In this guide |
 |---|---|---|
-| **Application development** | Prompts, context, evaluation, the product itself | The core of the guide: chapters 04–09 |
-| **Model development** | Training, finetuning, dataset engineering, inference optimization | Mostly out of scope: you build on models that others trained and optimized |
-| **Infrastructure** | Serving, compute, monitoring | Running and monitoring *your* application: chapters 10–11 |
+| **Application development** | Prompts, context, evaluation, the product itself | The core of the guide: chapters 05–10 |
+| **Model development** | Training, finetuning, dataset engineering, inference optimization | Mostly out of scope: you build on models that others trained and optimized. Chapter 04 explains how they work inside |
+| **Infrastructure** | Serving, compute, monitoring | Running and monitoring *your* application: chapters 11–12 |
 
 - **Most AI engineers work in the top layer**, and so does this guide.
 - **With a hosted model API** (Anthropic, OpenAI, Google, …), the provider takes care of developing, serving and scaling the model itself. You still own the infrastructure of your own application: running it, monitoring it, and keeping it within budget.
@@ -115,13 +115,13 @@ When anyone can call the same models, being able to train one is no longer what 
 
 | Skill | Chapters |
 |---|---|
-| Talk to models well | 04 Calling LLM APIs · 05 Structured outputs & tool use |
-| Ground answers in your own data | 06 Embeddings & vector search · 07 RAG |
-| Measure quality | 08 Evals |
-| Let models act, safely | 09 Agents (tools, memory, guardrails) |
-| Ship it and keep it running | 10 Observability & cost · 11 Deployment |
+| Talk to models well | 05 Calling LLM APIs · 06 Structured outputs & tool use |
+| Ground answers in your own data | 07 Embeddings & vector search · 08 RAG |
+| Measure quality | 09 Evals |
+| Let models act, safely | 10 Agents (tools, memory, guardrails) |
+| Ship it and keep it running | 11 Observability & cost · 12 Deployment |
 
-Chapters 01–03 come first because all of that is written in Python and talks to models over HTTP: they give you the tools.
+Chapters 01–03 come first because all of that is written in Python and talks to models over HTTP: they give you the tools. [Chapter 04](../04-deep-learning-and-transformers/README.md) then opens up the model itself: neural networks, Transformers, tokens and how LLMs are trained.
 
 ---
 

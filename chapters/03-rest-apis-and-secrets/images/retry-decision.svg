@@ -99,7 +99,7 @@
   <rect class="retry" x="642" y="490" width="194" height="82" rx="10"/>
   <text class="h" x="656" y="514">Wait, then retry</text>
   <text class="s" x="656" y="536">honour <tspan class="mono">Retry-After</tspan></text>
-  <text class="s muted" x="656" y="556">backoff loops: ch. 04</text>
+  <text class="s muted" x="656" y="556">backoff loops: ch. 05</text>
 
   <!-- the idempotency warning -->
   <path d="M610 531 H640" fill="none" stroke="#bf8700" stroke-width="1.4" stroke-dasharray="4 3"/>

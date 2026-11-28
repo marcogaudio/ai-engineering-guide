@@ -213,7 +213,7 @@ timeout = httpx2.Timeout(60.0, connect=3.0)   # fail fast if the host is down, w
 - **Honour `Retry-After`** when the server sends it: the server is telling you exactly how long to wait.
 - **Only retry idempotent requests blindly.** A `POST` that timed out may still have been processed on the server.
 
-[`04_errors_and_timeouts.py`](examples/04_errors_and_timeouts.py) shows each case (503, 429 with `Retry-After`, a read timeout, a 401, and a real refused connection) with a single retry. Retry loops with exponential backoff and jitter, and token-based rate limits, are covered in the next chapter.
+[`04_errors_and_timeouts.py`](examples/04_errors_and_timeouts.py) shows each case (503, 429 with `Retry-After`, a read timeout, a 401, and a real refused connection) with a single retry. Retry loops with exponential backoff and jitter, and token-based rate limits, are covered in chapter 05, Calling LLM APIs.
 
 ## 8. Async calls to a real API
 
@@ -376,4 +376,4 @@ In practice, use the SDKs: they add retries, typed responses and streaming helpe
 
 **Further reading:** [MDN, *Overview of HTTP*](https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Overview) (the main source for this chapter) · [MDN, HTTP messages](https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Messages) · [MDN, status codes](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status) · [MDN, request methods](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Methods) · [MDN, using server-sent events](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events) · [httpx2 docs](https://pydantic.dev/docs/httpx2/) · [pydantic-settings](https://docs.pydantic.dev/latest/concepts/pydantic_settings/) · [The Twelve-Factor App: Config](https://12factor.net/config) · [OWASP Secrets Management Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Secrets_Management_Cheat_Sheet.html) · [Using secrets in GitHub Actions](https://docs.github.com/en/actions/security-for-github-actions/security-guides/using-secrets-in-github-actions)
 
-**Previous:** [← 02 · asyncio in depth](../02-asyncio/README.md) · **Next:** 04 · Calling LLM APIs (coming soon)
+**Previous:** [← 02 · asyncio in depth](../02-asyncio/README.md) · **Next:** [04 · Deep learning and Transformer foundations →](../04-deep-learning-and-transformers/README.md)

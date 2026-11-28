@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 740" width="860" height="740" role="img" aria-labelledby="title desc">
+  <title id="title">One Transformer block, and the model around it</title>
+  <desc id="desc">A decoder-only (GPT-style) model, top to bottom. Tokens become embeddings plus positional encodings. Then a Transformer block, repeated N times: LayerNorm, masked multi-head self-attention, and a residual connection that adds the block's input back; then LayerNorm, a feed-forward network applied to each token on its own, and a second residual connection. After the last block: a final LayerNorm, then a linear layer and softmax that give a probability for every token in the vocabulary, the next-token probabilities.</desc>
+  <style>
+    text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; font-size: 14px; fill: #1f2328; }
+    .title { font-size: 19px; font-weight: 700; }
+    .sub { font-size: 13.5px; fill: #59636e; }
+    .h { font-size: 14.5px; font-weight: 600; }
+    .s { font-size: 13px; fill: #59636e; }
+    .card { fill: #ffffff; stroke: #d0d7de; stroke-width: 1; }
+    .neu { fill: #f6f8fa; stroke: #8c959f; stroke-width: 1.5; }
+    .req { fill: #ddf4ff; stroke: #0969da; stroke-width: 1.5; }
+    .att { fill: #fbefff; stroke: #8250df; stroke-width: 1.5; }
+    .ffn { fill: #fff8c5; stroke: #bf8700; stroke-width: 1.5; }
+    .ok { fill: #dafbe1; stroke: #1a7f37; stroke-width: 1.5; }
+    .flow { fill: none; stroke: #6e7781; stroke-width: 1.6; }
+  </style>
+  <defs>
+    <marker id="ag" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#6e7781"/>
+    </marker>
+  </defs>
+
+  <rect class="card" x="0.5" y="0.5" width="859" height="739" rx="14"/>
+  <text class="title" x="28" y="40">One Transformer block, and the model around it</text>
+  <text class="sub" x="28" y="64">A GPT-style (decoder-only) LLM. The same block is stacked N times; each keeps the shape (tokens, d).</text>
+
+  <!-- input -->
+  <rect class="neu" x="170" y="84" width="320" height="40" rx="10"/>
+  <text class="h" x="330" y="109" text-anchor="middle">Tokens: the · cat · sat · down</text>
+  <path class="flow" d="M330 124 V140" marker-end="url(#ag)"/>
+  <rect class="req" x="170" y="144" width="320" height="44" rx="10"/>
+  <text class="h" x="330" y="163" text-anchor="middle">Embeddings + positions</text>
+  <text class="s" x="330" y="180" text-anchor="middle">one vector of d numbers per token</text>
+  <path class="flow" d="M330 188 V238"/>
+
+  <!-- the repeated block -->
+  <rect x="130" y="214" width="480" height="334" rx="14" fill="#ffffff" stroke="#57606a" stroke-width="1.5" stroke-dasharray="7 5"/>
+  <text class="h" x="146" y="236">Transformer block</text>
+  <text class="h" x="594" y="236" text-anchor="end">× N</text>
+
+  <circle cx="330" cy="246" r="4" fill="#6e7781"/>
+  <path class="flow" d="M330 246 V250" marker-end="url(#ag)"/>
+  <rect class="neu" x="170" y="254" width="320" height="30" rx="8"/>
+  <text class="h" x="330" y="274" text-anchor="middle">LayerNorm</text>
+  <path class="flow" d="M330 284 V294" marker-end="url(#ag)"/>
+  <rect class="att" x="170" y="298" width="320" height="44" rx="10"/>
+  <text class="h" x="330" y="317" text-anchor="middle">Masked multi-head self-attention</text>
+  <text class="s" x="330" y="334" text-anchor="middle">each token looks at itself and earlier tokens</text>
+  <path class="flow" d="M330 342 V354" marker-end="url(#ag)"/>
+  <circle cx="330" cy="370" r="12" fill="#ffffff" stroke="#57606a" stroke-width="1.5"/>
+  <text x="330" y="375" text-anchor="middle" font-weight="700">+</text>
+  <path class="flow" d="M330 246 H540 V370 H346" marker-end="url(#ag)"/>
+  <text class="s" x="548" y="312">residual</text>
+
+  <path class="flow" d="M330 382 V394"/>
+  <circle cx="330" cy="394" r="4" fill="#6e7781"/>
+  <path class="flow" d="M330 394 V398" marker-end="url(#ag)"/>
+  <rect class="neu" x="170" y="402" width="320" height="30" rx="8"/>
+  <text class="h" x="330" y="422" text-anchor="middle">LayerNorm</text>
+  <path class="flow" d="M330 432 V442" marker-end="url(#ag)"/>
+  <rect class="ffn" x="170" y="446" width="320" height="44" rx="10"/>
+  <text class="h" x="330" y="465" text-anchor="middle">Feed-forward network</text>
+  <text class="s" x="330" y="482" text-anchor="middle">applied to each token on its own</text>
+  <path class="flow" d="M330 490 V502" marker-end="url(#ag)"/>
+  <circle cx="330" cy="518" r="12" fill="#ffffff" stroke="#57606a" stroke-width="1.5"/>
+  <text x="330" y="523" text-anchor="middle" font-weight="700">+</text>
+  <path class="flow" d="M330 394 H540 V518 H346" marker-end="url(#ag)"/>
+  <text class="s" x="548" y="460">residual</text>
+
+  <!-- output -->
+  <path class="flow" d="M330 530 V562" marker-end="url(#ag)"/>
+  <rect class="neu" x="170" y="566" width="320" height="30" rx="8"/>
+  <text class="h" x="330" y="586" text-anchor="middle">Final LayerNorm</text>
+  <path class="flow" d="M330 596 V608" marker-end="url(#ag)"/>
+  <rect class="neu" x="170" y="612" width="320" height="44" rx="10"/>
+  <text class="h" x="330" y="631" text-anchor="middle">Linear + softmax</text>
+  <text class="s" x="330" y="648" text-anchor="middle">a probability for every token in the vocabulary</text>
+  <path class="flow" d="M330 656 V670" marker-end="url(#ag)"/>
+  <rect class="ok" x="170" y="674" width="320" height="44" rx="10"/>
+  <text class="h" x="330" y="693" text-anchor="middle">Next-token probabilities</text>
+  <text class="s" x="330" y="710" text-anchor="middle">read at the last position: what comes next?</text>
+</svg>

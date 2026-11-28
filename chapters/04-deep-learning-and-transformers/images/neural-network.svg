@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 470" width="860" height="470" role="img" aria-labelledby="title desc">
+  <title id="title">How a neural network learns</title>
+  <desc id="desc">Two inputs feed a hidden layer of four neurons, which feeds one output neuron; the output is compared with the right answer by the loss. The forward pass goes left to right, from inputs to prediction to loss. Backpropagation goes right to left and computes the gradient of the loss for every weight. Gradient descent then updates each weight: w becomes w minus learning rate times gradient, and the loop repeats.</desc>
+  <style>
+    text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; font-size: 14px; fill: #1f2328; }
+    .mono { font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace; font-size: 14px; }
+    .title { font-size: 19px; font-weight: 700; }
+    .sub { font-size: 13.5px; fill: #59636e; }
+    .col { font-size: 14px; font-weight: 600; fill: #424a53; }
+    .s { font-size: 13px; }
+    .muted { fill: #59636e; }
+    .b { font-weight: 600; }
+    .card { fill: #ffffff; stroke: #d0d7de; stroke-width: 1; }
+    .edge { stroke: #afb8c1; stroke-width: 1.2; }
+    .in { fill: #f6f8fa; stroke: #57606a; stroke-width: 1.5; }
+    .hid { fill: #ddf4ff; stroke: #0969da; stroke-width: 1.5; }
+    .out { fill: #fbefff; stroke: #8250df; stroke-width: 1.5; }
+  </style>
+  <defs>
+    <marker id="ab" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#0969da"/>
+    </marker>
+    <marker id="ap" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#8250df"/>
+    </marker>
+    <marker id="ag" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#6e7781"/>
+    </marker>
+  </defs>
+
+  <rect class="card" x="0.5" y="0.5" width="859" height="469" rx="14"/>
+  <text class="title" x="28" y="40">How a neural network learns</text>
+  <text class="sub" x="28" y="64">Predict, measure the error, find each weight's share of the blame, nudge every weight. Repeat.</text>
+
+  <!-- column labels -->
+  <text class="col" x="150" y="104" text-anchor="middle">inputs</text>
+  <text class="col" x="350" y="104" text-anchor="middle">hidden layer</text>
+  <text class="col" x="550" y="104" text-anchor="middle">output</text>
+
+  <!-- connections: every input to every hidden neuron, every hidden neuron to the output -->
+  <g class="edge">
+    <path d="M172 180 L328 135 M172 180 L328 185 M172 180 L328 235 M172 180 L328 285"/>
+    <path d="M172 240 L328 135 M172 240 L328 185 M172 240 L328 235 M172 240 L328 285"/>
+    <path d="M372 135 L528 210 M372 185 L528 210 M372 235 L528 210 M372 285 L528 210"/>
+  </g>
+  <text class="s muted" x="250" y="124" text-anchor="middle">each line = a weight</text>
+
+  <!-- neurons -->
+  <circle class="in" cx="150" cy="180" r="22"/>
+  <circle class="in" cx="150" cy="240" r="22"/>
+  <text x="150" y="185" text-anchor="middle">x1</text>
+  <text x="150" y="245" text-anchor="middle">x2</text>
+  <circle class="hid" cx="350" cy="135" r="22"/>
+  <circle class="hid" cx="350" cy="185" r="22"/>
+  <circle class="hid" cx="350" cy="235" r="22"/>
+  <circle class="hid" cx="350" cy="285" r="22"/>
+  <circle class="out" cx="550" cy="210" r="24"/>
+  <text x="550" y="215" text-anchor="middle">ŷ</text>
+  <text class="s muted" x="350" y="330" text-anchor="middle">each neuron: weighted sum + bias,</text>
+  <text class="s muted" x="350" y="348" text-anchor="middle">then an activation (ReLU, sigmoid…)</text>
+
+  <!-- loss -->
+  <path d="M576 210 H646" fill="none" stroke="#6e7781" stroke-width="1.6" marker-end="url(#ag)"/>
+  <rect x="650" y="170" width="180" height="80" rx="10" fill="#fff8c5" stroke="#bf8700" stroke-width="1.5"/>
+  <text x="666" y="198" class="b">Loss</text>
+  <text class="s" x="666" y="219">how wrong is ŷ compared</text>
+  <text class="s" x="666" y="237">with the right answer?</text>
+
+  <!-- forward and backward -->
+  <path d="M130 384 H800" fill="none" stroke="#0969da" stroke-width="2" marker-end="url(#ab)"/>
+  <text x="130" y="376" fill="#0550ae"><tspan class="b">forward pass:</tspan> inputs → prediction → loss</text>
+  <path d="M800 412 H130" fill="none" stroke="#8250df" stroke-width="2" stroke-dasharray="7 5" marker-end="url(#ap)"/>
+  <text x="130" y="434" fill="#6639ba"><tspan class="b">backpropagation:</tspan> the chain rule gives the gradient of the loss for every weight</text>
+
+  <text x="130" y="458" class="s">then <tspan class="b">gradient descent</tspan> updates every weight: <tspan class="mono">w ← w − learning_rate × gradient</tspan>, and the loop repeats</text>
+</svg>
